@@ -1,26 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-ingress
-  namespace: argocd
+  name: ingress-quote
+  namespace: quote
   annotations:
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     reflector.v1.k8s.emberstack.com/reflects: "cert-manager/tls-secret"
 spec:
-  ingressClassName: nginx
   tls:
     - hosts:
-        - argocd.techvibe.app
+        - quote.techvibe.app
       secretName: tls-secret
   rules:
-    - host: argocd.techvibe.app
+    - host: quote.techvibe.app
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: quote
                 port:
-                  name: https
+                  number: 80
+  ingressClassName: nginx

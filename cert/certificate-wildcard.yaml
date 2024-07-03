@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: techvibe-app
+  namespace: cert-manager
+spec:
+  secretName: tls-secret
+  issuerRef:
+    kind: Issuer
+    name: letsencrypt-nginx
+    group: cert-manager.io
+  commonName: "*.techvibe.app"
+  dnsNames:
+    - "*.techvibe.app"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "argocd,quote,cert-manager" # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "argocd,quote,cert-manager" # Control auto-reflection namespaces
