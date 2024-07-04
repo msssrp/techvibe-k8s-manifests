@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quote-app
+  finalizers: []
+spec:
+  destination:
+    name: ''
+    namespace: quote
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: quote-namespace
+    repoURL: 'https://github.com/msssrp/techvibe-k8s-manifests'
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
