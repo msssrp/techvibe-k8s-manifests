@@ -3,4 +3,4 @@ techvibe-k8s-kubeconfig.yaml
 kubectl
 
 
-cert-manager-namespace/secret/
+cert-manager-namespace/secret-digitalocean-dns.yaml
