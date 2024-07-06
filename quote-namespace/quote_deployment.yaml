@@ -16,6 +16,8 @@ spec:
       labels:
         app: quote
     spec:
+      nodeSelector:
+        name: CAM-node
       containers:
         - name: backend
           image: docker.io/datawire/quote:0.4.1
