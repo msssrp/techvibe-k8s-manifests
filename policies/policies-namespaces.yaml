@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-from-other-namespaces-allow-on-monitoring
+  namespace: argocd
+spec:
+  podSelector: # Which pods should have their network connections enforced by the policy?
+    matchLabels: # if empty = selects all pods in namespace.
+  policyTypes:
+    - Ingress
+  ingress:
+    - from: # Which pods can connect to the target pods
+        - podSelector: {} # if empty = selects all pods in namespace.
+        - namespaceSelector:
+            matchLabels:
+              namespace: monitoring
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-from-other-allow-on-monitoring
+  namespace: cert-manager
+spec:
+  podSelector: # Which pods should have their network connections enforced by the policy?
+    matchLabels: # if empty = selects all pods in namespace.
+  policyTypes:
+    - Ingress
+  ingress:
+    - from: # Which pods can connect to the target pods
+        - podSelector: {} # if empty = selects all pods in namespace.
+        - namespaceSelector:
+            matchLabels:
+              namespace: monitoring
+
+---
+
