@@ -15,3 +15,6 @@ spec:
     - port: 8080
       targetPort: 8080
       name: jenkins-tcp
+    - port: 50000
+      targetPort: 50000
+      name: slave
