@@ -14,7 +14,7 @@ spec:
         app: jenkins-server
     spec:
       nodeSelector:
-        kubernetes.io/hostname: techvibe-jenkins-r44z5
+        kubernetes.io/hostname: jenkins-r1gil
       securityContext:
         fsGroup: 1000
         runAsUser: 1000

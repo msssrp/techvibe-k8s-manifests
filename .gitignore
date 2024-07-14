@@ -4,3 +4,4 @@ kubectl
 
 
 cert-manager-namespace/secret-digitalocean-dns.yaml
+techvibe-namespace/.env

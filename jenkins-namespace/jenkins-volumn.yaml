@@ -11,13 +11,14 @@ metadata:
   name: jenkins-pv-volume
   labels:
     type: local
+  namespace: jenkins
 spec:
   storageClassName: local-storage
   claimRef:
     name: jenkins-pv-claim
     namespace: jenkins
   capacity:
-    storage: 5Gi
+    storage: 20Gi
   accessModes:
     - ReadWriteOnce
   local:
@@ -29,7 +30,7 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - techvibe-jenkins-r44z5
+                - jenkins-r1gil
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: techvibe-ingress
+  namespace: techvibe
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflects: "cert-manager/tls-secret"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - techvibe.app
+      secretName: tls-secret
+  rules:
+    - host: techvibe.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: techvibe-service
+                port:
+                  name: techvibe-tcp
