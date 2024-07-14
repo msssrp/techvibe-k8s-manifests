@@ -75,7 +75,7 @@ pipeline {
                         git config user.email "siripoomcontact@gmail.com"
                         git config user.name "msssrp"
                         BUILD_NUMBER=${currentBuild.number}
-                        sed -i "s/techvibe:[^ ]*/techvibe:${BUILD_NUMBER}/g" techvibe-namespace/techvibe-deployment.yaml
+                        sed -i "s/techvibe:beta[^ ]*/techvibe:beta${BUILD_NUMBER}/g" techvibe-namespace/techvibe-deployment.yaml
                         git add techvibe-namespace/techvibe-deployment.yaml
                         git commit -m "update: update techvibe image version to ${BUILD_NUMBER}"
                         git push https://${GIT_USER_NAME}:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
