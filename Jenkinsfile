@@ -47,6 +47,7 @@ pipeline {
             }
             environment {
                 TechVibe_env = credentials('TECHVIBE-ENV')
+                BuildNumber = "${currentBuild.number}"
             }
             steps {
                 unstash 'source'
@@ -54,7 +55,7 @@ pipeline {
                     container(name: 'kaniko', shell: '/busybox/sh') {
                         sh '''
                         #!/busybox/sh
-                        /kaniko/executor --compressed-caching=false --skip-unused-stages --cache-run-layers=false --single-snapshot --build-arg=ENV_FILE="$(cat $TechVibe_env)" --dockerfile `pwd`/Dockerfile --context `pwd` --destination siripoom/techvibe:beta${currentBuild.number}
+                        /kaniko/executor --compressed-caching=false --skip-unused-stages --cache-run-layers=false --single-snapshot --build-arg=ENV_FILE="$(cat $TechVibe_env)" --dockerfile `pwd`/Dockerfile --context `pwd` --destination siripoom/techvibe:beta${BuildNumber}
                         '''
                     }
                 }
@@ -65,6 +66,7 @@ pipeline {
             environment {
                 GIT_REPO_NAME = "techvibe-k8s-manifests"
                 GIT_USER_NAME = "msssrp"
+                BuildNumber = "${currentBuild.number}"
             }
             steps{
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[credentialsId: 'git_credentials', url: "https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git"]]])
@@ -74,10 +76,9 @@ pipeline {
                         #!/bin/bash
                         git config user.email "siripoomcontact@gmail.com"
                         git config user.name "msssrp"
-                        BUILD_NUMBER=${currentBuild.number}
-                        sed -i "s/techvibe:beta[^ ]*/techvibe:beta${BUILD_NUMBER}/g" techvibe-namespace/techvibe-deployment.yaml
+                        sed -i "s/techvibe:beta[^ ]*/techvibe:beta${BuildNumber}/g" techvibe-namespace/techvibe-deployment.yaml
                         git add techvibe-namespace/techvibe-deployment.yaml
-                        git commit -m "update: update techvibe image version to ${BUILD_NUMBER}"
+                        git commit -m "update: update techvibe image version to ${BuildNumber}"
                         git push https://${GIT_USER_NAME}:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                     '''
                     }
