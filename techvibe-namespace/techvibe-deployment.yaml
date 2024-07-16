@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: jenkins-r1gil
       containers:
         - name: techvibe
-          image: siripoom/techvibe:beta33
+          image: siripoom/techvibe:pre{BuildNumber}
           livenessProbe:
             failureThreshold: 2
             httpGet:
