@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: techvibe-service
+  namespace: techvibe
+spec:
+  selector:
+    app: techvibe
+  ports:
+    - name: techvibe-tcp
+      port: 80
+      targetPort: 3000

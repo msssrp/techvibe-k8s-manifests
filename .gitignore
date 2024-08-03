@@ -4,7 +4,6 @@ kubectl
 
 
 cert-manager-namespace/secret-digitalocean-dns.yaml
-
 terraform-k8s/*/terraform.tfstate
 terraform-k8s/*/.terraform/
 terraform-k8s/*/terraform.tfstate.backup
@@ -20,3 +19,4 @@ terraform-k8s/*.tfvars
 
 terraform-k8s/techvibe-k8s-*.yaml
 
+techvibe-namespace/.env
