@@ -1,6 +1,6 @@
 ## Install nginx ingress controller using helm
 
-`helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx \ helm repo update ingress-nginx \ helm install ingress-nginx ingress-nginx/ingress-nginx --version "4.1.3" \ --namespace ingress-nginx --create-namespace \ -f nginx-values.yaml`
+`helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx \ helm repo update ingress-nginx \ helm install ingress-nginx/ingress-nginx --version "4.1.3" \ --namespace ingress-nginx --create-namespace \ -f nginx-values.yaml`
 
 ## Install cert manager jetstack
 
