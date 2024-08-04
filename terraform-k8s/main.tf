@@ -13,9 +13,15 @@ module "setup-cluster" {
     enabel_create_techvibe_node = false
 }
 
+module "setup-cert-manager" {
+  source = "./setup-cert-manager"
+  cluster_name = module.setup-cluster.cluster_name
+  digitalocean_token = var.do_token
+}
+
 module "kubernetes-config" {
   source = "./kubernetes-config"
-  cluster_id = module.setup-cluster.cluster_id
-  cluster_name = module.setup-cluster.cluster_name
+  cluster_id = module.setup-cert-manager.cluster_id
+  cluster_name = module.setup-cert-manager.cluster_name
   digitalocean_token = var.do_token
 }

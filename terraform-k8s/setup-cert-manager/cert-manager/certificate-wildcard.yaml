@@ -6,13 +6,13 @@ metadata:
 spec:
   secretName: tls-secret
   issuerRef:
-    kind: Issuer
-    name: letsencrypt-nginx
+    kind: ClusterIssuer
+    name: letsencrypt-nginx-ingress
     group: cert-manager.io
-  commonName: "techvibe.app"
+  commonName: "markcoding.online"
   dnsNames:
-    - "*.techvibe.app"
-    - "techvibe.app"
+    - "*.markcoding.online"
+    - "markcoding.online"
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"

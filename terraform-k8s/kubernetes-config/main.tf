@@ -1,48 +1,3 @@
-resource "kubernetes_namespace" "cert-manager" {
-  metadata {
-    name = "cert-manager"
-  }
-}
-
-resource "kubernetes_secret" "digitalocean-dns" {
-  metadata {
-    name      = "digitalocean-dns"
-    namespace = kubernetes_namespace.cert-manager.metadata[0].name
-  }
-
-  data = {
-    "access-token" = var.digitalocean_token
-  }
-  depends_on = [ kubernetes_namespace.cert-manager ]
-}
-
-module "cert_manager" {
-  source        = "terraform-iaac/cert-manager/kubernetes"
-
-  cluster_issuer_email                   = "siripoom.dev@gmail.com"
-  cluster_issuer_name                    = "letsencrypt-nginx-ingress"
-  cluster_issuer_private_key_secret_name = "letsencrypt-nginx-private-key"
-  namespace_name = kubernetes_namespace.cert-manager.metadata[0].name
-  create_namespace = false
-
-  solvers = [
-    {
-      dns01 = {
-        digitalocean = {
-          tokenSecretRef = {
-            name = "digitalocean-dns"
-            key = "access-token"
-          }
-        }
-      },
-      selector = {
-        dnsZones = ["techvibe.app"]
-      }
-    }
-  ]
-  depends_on = [ kubernetes_secret.digitalocean-dns ]
-}
-/*
 resource "helm_release" "ingress-nginx" {
   name = "ingress-nginx-controller"
 
@@ -62,20 +17,6 @@ resource "helm_release" "ingress-nginx" {
   }
 }
 
-
-
-resource "helm_release" "reflector" {
-  name = "reflector"
-
-  repository = "https://emberstack.github.io/helm-charts"
-  chart = "reflector"
-
-  namespace = "cert-manager"
-  create_namespace = true 
-
-  depends_on = [ helm_release.cert-manager ]
-}
-
 resource "helm_release" "prometheus" {
   name = "prometheus"
 
@@ -85,7 +26,7 @@ resource "helm_release" "prometheus" {
   namespace = "monitoring"
   create_namespace = true
 
-  depends_on = [ helm_release.cert-manager ]
+  depends_on = [ helm_release.ingress-nginx ]
 }
 
 resource "helm_release" "grafana" {
@@ -97,9 +38,30 @@ resource "helm_release" "grafana" {
   namespace = "monitoring"
   create_namespace = true
 
-  values = [
-    file("${path.module}/monitoring/grafana-ingress.yaml"),
-  ]
+  depends_on = [ helm_release.ingress-nginx ]
+}
 
-  depends_on = [ helm_release.prometheus , helm_release.reflector ]
-}*/
+resource "kubectl_manifest" "grafana-ingress" {
+  yaml_body = file("${path.module}/monitoring/grafana-ingress.yaml")
+
+  depends_on = [ helm_release.grafana]
+}
+
+resource "helm_release" "argocd" {
+  name = "argocd"
+
+  repository = "https://argoproj.github.io/argo-helm"
+  chart = "argo-cd"
+  version = "7.3.11"
+
+  namespace = "argocd"
+  create_namespace = true
+  
+  depends_on = [ helm_release.ingress-nginx ]
+}
+
+resource "kubectl_manifest" "argocd-ingress" {
+  yaml_body = file("${path.module}/argocd/argocd-ingress.yaml")
+
+  depends_on = [  helm_release.argocd ]
+}

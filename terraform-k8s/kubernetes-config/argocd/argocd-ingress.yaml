@@ -1,24 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grafana-ingress
-  namespace: monitoring
+  name: argocd-server-ingress
+  namespace: argocd
   annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     reflector.v1.k8s.emberstack.com/reflects: "cert-manager/tls-secret"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - grafana.markcoding.online
+        - argocd.markcoding.online
       secretName: tls-secret
   rules:
-    - host: grafana.markcoding.online
+    - host: argocd.markcoding.online
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: grafana
+                name: argocd-server
                 port:
-                  name: service
+                  name: https
