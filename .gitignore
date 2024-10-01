@@ -9,7 +9,7 @@ terraform-k8s/*/.terraform/
 terraform-k8s/*/terraform.tfstate.backup
 terraform-k8s/*/.terraform.lock.hcl
 terraform-k8s/*/*.tfvars
-
+terraform-k8s/kubernetes-config/kubernetes-config
 terraform-k8s/terraform.tfstate
 terraform-k8s/terraform.tfstate.*
 terraform-k8s/.terraform/

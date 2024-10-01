@@ -12,7 +12,6 @@ variable "cluster_region" {
 variable "kubernetes_version" {
     type = string
     description = "value of the kubernetes cluster version"
-    default = "1.30.2-do.0"
 }
 
 variable "do_token" {

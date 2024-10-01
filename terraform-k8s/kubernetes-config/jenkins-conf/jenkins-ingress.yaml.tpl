@@ -1,26 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-ingress
-  namespace: argocd
+  name: jenkins-ingress
+  namespace: jenkins
   annotations:
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     reflector.v1.k8s.emberstack.com/reflects: "cert-manager/tls-secret"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - argocd.markcoding.online
+        - jenkins.${dns_name}
       secretName: tls-secret
   rules:
-    - host: argocd.markcoding.online
+    - host: jenkins.${dns_name}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: jenkins-service
                 port:
-                  name: https
+                  name: jenkins-tcp

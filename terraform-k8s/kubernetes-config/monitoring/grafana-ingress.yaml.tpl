@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - grafana.markcoding.online
+        - grafana.${dns_name}
       secretName: tls-secret
   rules:
-    - host: grafana.markcoding.online
+    - host: grafana.${dns_name}
       http:
         paths:
           - path: /
