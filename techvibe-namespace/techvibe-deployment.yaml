@@ -16,7 +16,7 @@ spec:
         app: techvibe
     spec:
       nodeSelector:
-        kubernetes.io/hostname: jenkins-r1gil
+        kubernetes.io/hostname: techvibe-jenkins-node-wwxbo
       containers:
         - name: techvibe
           image: siripoom/techvibe:pre4
