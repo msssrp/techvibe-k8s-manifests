@@ -11,7 +11,7 @@ resource "kubernetes_secret" "digitalocean-dns" {
   }
 
   data = {
-    "access-token" = var.digitalocean_token
+    "access-token" = var.do_token
   }
   depends_on = [ kubernetes_namespace.cert-manager ]
 }
@@ -36,16 +36,22 @@ module "cert_manager" {
         }
       },
       selector = {
-        dnsZones = ["markcoding.online"]
+        dnsZones = [ var.dns_name ]
       }
     }
   ]
   depends_on = [ kubernetes_secret.digitalocean-dns ]
 }
 
-resource "kubectl_manifest" "cert-manager-wildcard" {
-    yaml_body = file("${path.module}/cert-manager/certificate-wildcard.yaml")
+data "template_file" "certificate-wildcard" {
+  template = file("${path.module}/cert-manager/certificate-wildcard.yaml.tpl")
+  vars = {
+    dns_name = var.dns_name
+  }
+}
 
+resource "kubectl_manifest" "cert-manager-wildcard" {
+    yaml_body = data.template_file.certificate-wildcard.rendered
     depends_on = [ module.cert_manager , helm_release.reflector ]
 }
 

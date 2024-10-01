@@ -9,10 +9,10 @@ spec:
     kind: ClusterIssuer
     name: letsencrypt-nginx-ingress
     group: cert-manager.io
-  commonName: "markcoding.online"
+  commonName: ${dns_name}
   dnsNames:
-    - "*.markcoding.online"
-    - "markcoding.online"
+    - "*.${dns_name}"
+    - "${dns_name}"
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
