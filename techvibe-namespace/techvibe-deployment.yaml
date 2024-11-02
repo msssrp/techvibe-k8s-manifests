@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: techvibe-jenkins-node-wwxbo
       containers:
         - name: techvibe
-          image: siripoom/techvibe:pre8
+          image: siripoom/techvibe:pre10
           livenessProbe:
             failureThreshold: 2
             httpGet:
