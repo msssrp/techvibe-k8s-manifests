@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mentality-front-service
+  namespace: mentality
+spec:
+  selector:
+    app: mentality-front
+  ports:
+    - name: mentality-f-tcp
+      port: 80
+      targetPort: 3000

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mentality-server-deployment
+  labels:
+    app: mentality-server
+  namespace: mentality
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mentality-server
+  template:
+    metadata:
+      labels:
+        app: mentality-server
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: techvibe-jenkins-node-wwxbo
+      containers:
+        - name: mentality-server
+          image: siripoom/mentalityserver:1.0.0
+          ports:
+            - containerPort: 8080
+              name: mentality-s-tcp
+              protocol: TCP

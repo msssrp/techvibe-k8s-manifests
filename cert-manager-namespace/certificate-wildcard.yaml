@@ -16,6 +16,6 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "argocd,quote,monitoring,jenkins,techvibe" # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "argocd,quote,monitoring,jenkins,techvibe,mentality" # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "argocd,quote,monitoring,jenkins,techvibe" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "argocd,quote,monitoring,jenkins,techvibe,mentality" # Control auto-reflection namespaces

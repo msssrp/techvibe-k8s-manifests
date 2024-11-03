@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mentality-server-ingress
+  namespace: mentality
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflects: "cert-manager/tls-secret"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - mentalitywss.techvibe.app
+      secretName: tls-secret
+  rules:
+    - host: mentalitywss.techvibe.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mentality-server-service
+                port:
+                  name: mentality-s-tcp
